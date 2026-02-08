@@ -37,6 +37,10 @@ else
   fi
 fi
 
+# Garantir branch main e remote (mesmo quando .git já existia)
+git branch -M main
+git remote add origin "$REPO_URL" 2>/dev/null || git remote set-url origin "$REPO_URL"
+
 # 3. Pull rebase (se o remote tiver commits) e push
 echo "A fazer pull e push..."
 git fetch origin 2>/dev/null || true
