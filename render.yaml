@@ -1,0 +1,11 @@
+# Deploy API no Render.com
+# Dashboard: https://dashboard.render.com
+services:
+  - type: web
+    name: gestao-empresa-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile.api
+    plan: free
+    envVars:
+      - key: GESTAO_BASE_PATH
+        value: /app

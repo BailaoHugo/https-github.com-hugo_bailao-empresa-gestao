@@ -1,0 +1,39 @@
+# Google Cloud Build + Cloud Run
+# Executa: gcloud builds submit --config=cloudbuild.yaml .
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/gestao-api/gestao-api:latest'
+      - '-f'
+      - 'Dockerfile.api'
+      - '.'
+
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/gestao-api/gestao-api:latest'
+
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'gestao-api'
+      - '--image'
+      - 'europe-west1-docker.pkg.dev/$PROJECT_ID/gestao-api/gestao-api:latest'
+      - '--region'
+      - 'europe-west1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--set-env-vars'
+      - 'GESTAO_BASE_PATH=/app'
+
+images:
+  - 'europe-west1-docker.pkg.dev/$PROJECT_ID/gestao-api/gestao-api:latest'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

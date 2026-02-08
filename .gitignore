@@ -1,0 +1,26 @@
+# Logs
+logs/
+*.log
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ambientes virtuais
+.venv/
+venv/
+
+# Configurações e segredos
+config/secrets/
+config/*.env
+
+# Node (se existir agora ou no futuro)
+node_modules/
+
+# Next.js
+.next/
+
+# Sistema
+.DS_Store

@@ -1,0 +1,1432 @@
+{
+  "version": 5,
+  "capitulos": [
+    {
+      "id": "A1",
+      "area": "A",
+      "ordem": 1,
+      "nome": "Processos camararios e licenciamentos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "A2",
+      "area": "A",
+      "ordem": 2,
+      "nome": "Taxas, emolumentos e vistorias",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "A3",
+      "area": "A",
+      "ordem": 3,
+      "nome": "Elementos finais e telas finais",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "A4",
+      "area": "A",
+      "ordem": 4,
+      "nome": "Apoio a inspecoes e entidades externas",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "A5",
+      "area": "A",
+      "ordem": 5,
+      "nome": "Documentacao e certificacoes obrigatorias",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "B1",
+      "area": "B",
+      "ordem": 1,
+      "nome": "Levantamento arquitetonico e diagnostico",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "B2",
+      "area": "B",
+      "ordem": 2,
+      "nome": "Projeto de arquitetura",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "B3",
+      "area": "B",
+      "ordem": 3,
+      "nome": "Projetos de especialidades",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "B4",
+      "area": "B",
+      "ordem": 4,
+      "nome": "Projeto de estabilidade e estruturas",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "B5",
+      "area": "B",
+      "ordem": 5,
+      "nome": "Medicoes e quantificacao de trabalhos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "C1",
+      "area": "C",
+      "ordem": 1,
+      "nome": "Trabalhos preparatorios e demolicoes",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "C2",
+      "area": "C",
+      "ordem": 2,
+      "nome": "Construcao civil e estruturas",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "C3",
+      "area": "C",
+      "ordem": 3,
+      "nome": "Revestimentos e acabamentos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "C4",
+      "area": "C",
+      "ordem": 4,
+      "nome": "Carpintarias, serralharias e caixilharias",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "C5",
+      "area": "C",
+      "ordem": 5,
+      "nome": "Pinturas e limpezas finais",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "D1",
+      "area": "D",
+      "ordem": 1,
+      "nome": "Instalacoes eletricas e ITED",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "D2",
+      "area": "D",
+      "ordem": 2,
+      "nome": "AVAC e ventilacao",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "D3",
+      "area": "D",
+      "ordem": 3,
+      "nome": "Redes de aguas e esgotos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "D4",
+      "area": "D",
+      "ordem": 4,
+      "nome": "Gas e seguranca contra incendio",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "D5",
+      "area": "D",
+      "ordem": 5,
+      "nome": "Equipamentos e sistemas tecnicos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "E1",
+      "area": "E",
+      "ordem": 1,
+      "nome": "Materiais ceramicos e revestimentos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "E2",
+      "area": "E",
+      "ordem": 2,
+      "nome": "Loucas sanitarias e torneiras",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "E3",
+      "area": "E",
+      "ordem": 3,
+      "nome": "Pavimentos flutuantes e madeira",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "E4",
+      "area": "E",
+      "ordem": 4,
+      "nome": "Iluminacao e equipamentos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "E5",
+      "area": "E",
+      "ordem": 5,
+      "nome": "Cozinhas, armarios e mobiliario",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "F1",
+      "area": "F",
+      "ordem": 1,
+      "nome": "Coordenacao de projetos",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "F2",
+      "area": "F",
+      "ordem": 2,
+      "nome": "Direcao e acompanhamento de obra",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "F3",
+      "area": "F",
+      "ordem": 3,
+      "nome": "Plano de Seguranca e Saude (PSS)",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "F4",
+      "area": "F",
+      "ordem": 4,
+      "nome": "Coordenacao de seguranca em obra",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    },
+    {
+      "id": "F5",
+      "area": "F",
+      "ordem": 5,
+      "nome": "Planeamento, controlo de custos e reporting",
+      "ativo_default": true,
+      "usar_default": false,
+      "tags": [
+        "ambos"
+      ]
+    }
+  ],
+  "subcapitulos": [
+    {
+      "id": "A1.1",
+      "capId": "A1",
+      "nome": "Levantamento arquitetonico e fotografico",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A1.2",
+      "capId": "A1",
+      "nome": "Levantamento de especialidades existentes",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A1.3",
+      "capId": "A1",
+      "nome": "Diagnostico tecnico do estado do edificio",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A1.4",
+      "capId": "A1",
+      "nome": "Medicoes e quantificacao de trabalhos",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A2.1",
+      "capId": "A2",
+      "nome": "Projeto de arquitetura",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A2.2",
+      "capId": "A2",
+      "nome": "Projeto de estabilidade / estruturas",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A2.3",
+      "capId": "A2",
+      "nome": "Projeto de eletricidade e ITED",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A2.4",
+      "capId": "A2",
+      "nome": "Projeto de AVAC e ventilacao",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A2.5",
+      "capId": "A2",
+      "nome": "Projeto de seguranca contra incendios",
+      "ordem": 5,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A2.6",
+      "capId": "A2",
+      "nome": "Outros projetos de especialidade",
+      "ordem": 6,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A3.1",
+      "capId": "A3",
+      "nome": "Coordenacao de projetos",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A3.2",
+      "capId": "A3",
+      "nome": "Compatibilizacao de especialidades",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A3.3",
+      "capId": "A3",
+      "nome": "Direcao e acompanhamento de obra",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A3.4",
+      "capId": "A3",
+      "nome": "Planeamento e controlo de custos",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A3.5",
+      "capId": "A3",
+      "nome": "Reunioes de obra e reporting",
+      "ordem": 5,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A4.1",
+      "capId": "A4",
+      "nome": "Processos camararios",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A4.2",
+      "capId": "A4",
+      "nome": "Taxas, emolumentos e vistorias",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A4.3",
+      "capId": "A4",
+      "nome": "Elementos finais / telas finais",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A4.4",
+      "capId": "A4",
+      "nome": "Apoio a inspecoes e entidades externas",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A5.1",
+      "capId": "A5",
+      "nome": "Plano de Seguranca e Saude (PSS)",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A5.2",
+      "capId": "A5",
+      "nome": "Coordenacao de seguranca em obra",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A5.3",
+      "capId": "A5",
+      "nome": "Formacao e documentacao obrigatoria",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "A5.4",
+      "capId": "A5",
+      "nome": "Sinalizacao e medidas preventivas",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E1.1",
+      "capId": "E1",
+      "nome": "Revestimentos parede (fornecimento)",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E1.2",
+      "capId": "E1",
+      "nome": "Pavimentos (fornecimento)",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E1.3",
+      "capId": "E1",
+      "nome": "Rodapes e pecas especiais (fornecimento)",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E1.4",
+      "capId": "E1",
+      "nome": "Argamassas/consumiveis associados (fornecimento)",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E2.1",
+      "capId": "E2",
+      "nome": "Sanitas e bides (fornecimento)",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E2.2",
+      "capId": "E2",
+      "nome": "Lavatorios (fornecimento)",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E2.3",
+      "capId": "E2",
+      "nome": "Bases de duche e banheiras (fornecimento)",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E2.4",
+      "capId": "E2",
+      "nome": "Acessorios sanitarios (fornecimento)",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E3.1",
+      "capId": "E3",
+      "nome": "Torneiras lavatorio (fornecimento)",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E3.2",
+      "capId": "E3",
+      "nome": "Torneiras duche/banho (fornecimento)",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E3.3",
+      "capId": "E3",
+      "nome": "Acessorios WC (fornecimento)",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E3.4",
+      "capId": "E3",
+      "nome": "Misturadoras especiais (fornecimento)",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E4.1",
+      "capId": "E4",
+      "nome": "Flutuante (fornecimento)",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E4.2",
+      "capId": "E4",
+      "nome": "Madeira macica/engenheirada (fornecimento)",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E4.3",
+      "capId": "E4",
+      "nome": "Rodapes e acessorios (fornecimento)",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E5.1",
+      "capId": "E5",
+      "nome": "Luminarias interiores (fornecimento)",
+      "ordem": 1,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E5.2",
+      "capId": "E5",
+      "nome": "Perfis e fitas LED (fornecimento)",
+      "ordem": 2,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E5.3",
+      "capId": "E5",
+      "nome": "Projetores, focos e calhas (fornecimento)",
+      "ordem": 3,
+      "ativo_default": true,
+      "usar_default": false
+    },
+    {
+      "id": "E5.4",
+      "capId": "E5",
+      "nome": "Emergencia (fornecimento, quando aplicavel)",
+      "ordem": 4,
+      "ativo_default": true,
+      "usar_default": false
+    }
+  ],
+  "artigos": [],
+  "items": [
+    {
+      "id": "A1.1.1",
+      "subcapId": "A1.1",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Execucao de levantamento arquitetonico e fotografico, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.1.2",
+      "subcapId": "A1.1",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de levantamento arquitetonico e fotografico, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.2.1",
+      "subcapId": "A1.2",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Execucao de levantamento de especialidades existentes, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.2.2",
+      "subcapId": "A1.2",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de levantamento de especialidades existentes, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.3.1",
+      "subcapId": "A1.3",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Execucao de diagnostico tecnico do estado do edificio, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.3.2",
+      "subcapId": "A1.3",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de diagnostico tecnico do estado do edificio, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.4.1",
+      "subcapId": "A1.4",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Execucao de medicoes e quantificacao de trabalhos, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A1.4.2",
+      "subcapId": "A1.4",
+      "capId": "A1",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de medicoes e quantificacao de trabalhos, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.1.1",
+      "subcapId": "A2.1",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Execucao de projeto de arquitetura, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.1.2",
+      "subcapId": "A2.1",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de projeto de arquitetura, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.2.1",
+      "subcapId": "A2.2",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Execucao de projeto de estabilidade / estruturas, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.2.2",
+      "subcapId": "A2.2",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de projeto de estabilidade / estruturas, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.3.1",
+      "subcapId": "A2.3",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Execucao de projeto de eletricidade e ited, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.3.2",
+      "subcapId": "A2.3",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de projeto de eletricidade e ited, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.4.1",
+      "subcapId": "A2.4",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Execucao de projeto de avac e ventilacao, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.4.2",
+      "subcapId": "A2.4",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de projeto de avac e ventilacao, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.5.1",
+      "subcapId": "A2.5",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Execucao de projeto de seguranca contra incendios, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.5.2",
+      "subcapId": "A2.5",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de projeto de seguranca contra incendios, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.6.1",
+      "subcapId": "A2.6",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Execucao de outros projetos de especialidade, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A2.6.2",
+      "subcapId": "A2.6",
+      "capId": "A2",
+      "areaId": "B",
+      "desc": "Preparacao e acabamentos de outros projetos de especialidade, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.1.1",
+      "subcapId": "A3.1",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Execucao de coordenacao de projetos, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.1.2",
+      "subcapId": "A3.1",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de coordenacao de projetos, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.2.1",
+      "subcapId": "A3.2",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Execucao de compatibilizacao de especialidades, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.2.2",
+      "subcapId": "A3.2",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de compatibilizacao de especialidades, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.3.1",
+      "subcapId": "A3.3",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Execucao de direcao e acompanhamento de obra, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.3.2",
+      "subcapId": "A3.3",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de direcao e acompanhamento de obra, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.4.1",
+      "subcapId": "A3.4",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Execucao de planeamento e controlo de custos, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.4.2",
+      "subcapId": "A3.4",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de planeamento e controlo de custos, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.5.1",
+      "subcapId": "A3.5",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Execucao de reunioes de obra e reporting, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A3.5.2",
+      "subcapId": "A3.5",
+      "capId": "A3",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de reunioes de obra e reporting, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.1.1",
+      "subcapId": "A4.1",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Execucao de processos camararios, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.1.2",
+      "subcapId": "A4.1",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Preparacao e acabamentos de processos camararios, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.2.1",
+      "subcapId": "A4.2",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Execucao de taxas, emolumentos e vistorias, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.2.2",
+      "subcapId": "A4.2",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Preparacao e acabamentos de taxas, emolumentos e vistorias, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.3.1",
+      "subcapId": "A4.3",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Execucao de elementos finais / telas finais, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.3.2",
+      "subcapId": "A4.3",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Preparacao e acabamentos de elementos finais / telas finais, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.4.1",
+      "subcapId": "A4.4",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Execucao de apoio a inspecoes e entidades externas, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A4.4.2",
+      "subcapId": "A4.4",
+      "capId": "A4",
+      "areaId": "A",
+      "desc": "Preparacao e acabamentos de apoio a inspecoes e entidades externas, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.1.1",
+      "subcapId": "A5.1",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Execucao de plano de seguranca e saude (pss), conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.1.2",
+      "subcapId": "A5.1",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de plano de seguranca e saude (pss), conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.2.1",
+      "subcapId": "A5.2",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Execucao de coordenacao de seguranca em obra, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.2.2",
+      "subcapId": "A5.2",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de coordenacao de seguranca em obra, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.3.1",
+      "subcapId": "A5.3",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Execucao de formacao e documentacao obrigatoria, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.3.2",
+      "subcapId": "A5.3",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de formacao e documentacao obrigatoria, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.4.1",
+      "subcapId": "A5.4",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Execucao de sinalizacao e medidas preventivas, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "A5.4.2",
+      "subcapId": "A5.4",
+      "capId": "A5",
+      "areaId": "F",
+      "desc": "Preparacao e acabamentos de sinalizacao e medidas preventivas, conforme especificacao a definir.",
+      "unit": "vg",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.1.1",
+      "subcapId": "E1.1",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Execucao de revestimentos parede (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.1.2",
+      "subcapId": "E1.1",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de revestimentos parede (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.2.1",
+      "subcapId": "E1.2",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Execucao de pavimentos (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.2.2",
+      "subcapId": "E1.2",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de pavimentos (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.3.1",
+      "subcapId": "E1.3",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Execucao de rodapes e pecas especiais (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.3.2",
+      "subcapId": "E1.3",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de rodapes e pecas especiais (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.4.1",
+      "subcapId": "E1.4",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Execucao de argamassas/consumiveis associados (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E1.4.2",
+      "subcapId": "E1.4",
+      "capId": "E1",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de argamassas/consumiveis associados (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.1.1",
+      "subcapId": "E2.1",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Execucao de sanitas e bides (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.1.2",
+      "subcapId": "E2.1",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de sanitas e bides (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.2.1",
+      "subcapId": "E2.2",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Execucao de lavatorios (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.2.2",
+      "subcapId": "E2.2",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de lavatorios (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.3.1",
+      "subcapId": "E2.3",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Execucao de bases de duche e banheiras (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.3.2",
+      "subcapId": "E2.3",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de bases de duche e banheiras (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.4.1",
+      "subcapId": "E2.4",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Execucao de acessorios sanitarios (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E2.4.2",
+      "subcapId": "E2.4",
+      "capId": "E2",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de acessorios sanitarios (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.1.1",
+      "subcapId": "E3.1",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Execucao de torneiras lavatorio (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.1.2",
+      "subcapId": "E3.1",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de torneiras lavatorio (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.2.1",
+      "subcapId": "E3.2",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Execucao de torneiras duche/banho (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.2.2",
+      "subcapId": "E3.2",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de torneiras duche/banho (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.3.1",
+      "subcapId": "E3.3",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Execucao de acessorios wc (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.3.2",
+      "subcapId": "E3.3",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de acessorios wc (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.4.1",
+      "subcapId": "E3.4",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Execucao de misturadoras especiais (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E3.4.2",
+      "subcapId": "E3.4",
+      "capId": "E3",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de misturadoras especiais (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E4.1.1",
+      "subcapId": "E4.1",
+      "capId": "E4",
+      "areaId": "E",
+      "desc": "Execucao de flutuante (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E4.1.2",
+      "subcapId": "E4.1",
+      "capId": "E4",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de flutuante (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E4.2.1",
+      "subcapId": "E4.2",
+      "capId": "E4",
+      "areaId": "E",
+      "desc": "Execucao de madeira macica/engenheirada (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E4.2.2",
+      "subcapId": "E4.2",
+      "capId": "E4",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de madeira macica/engenheirada (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E4.3.1",
+      "subcapId": "E4.3",
+      "capId": "E4",
+      "areaId": "E",
+      "desc": "Execucao de rodapes e acessorios (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E4.3.2",
+      "subcapId": "E4.3",
+      "capId": "E4",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de rodapes e acessorios (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.1.1",
+      "subcapId": "E5.1",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Execucao de luminarias interiores (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.1.2",
+      "subcapId": "E5.1",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de luminarias interiores (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.2.1",
+      "subcapId": "E5.2",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Execucao de perfis e fitas led (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.2.2",
+      "subcapId": "E5.2",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de perfis e fitas led (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.3.1",
+      "subcapId": "E5.3",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Execucao de projetores, focos e calhas (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.3.2",
+      "subcapId": "E5.3",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de projetores, focos e calhas (fornecimento), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.4.1",
+      "subcapId": "E5.4",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Execucao de emergencia (fornecimento, quando aplicavel), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    },
+    {
+      "id": "E5.4.2",
+      "subcapId": "E5.4",
+      "capId": "E5",
+      "areaId": "E",
+      "desc": "Preparacao e acabamentos de emergencia (fornecimento, quando aplicavel), conforme especificacao a definir.",
+      "unit": "un",
+      "ativo_default": true
+    }
+  ]
+}

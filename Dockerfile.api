@@ -1,0 +1,24 @@
+# API Gestão Empresa - Registo de Despesas
+FROM python:3.11-slim
+
+# Tesseract OCR + idioma português
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    tesseract-ocr \
+    tesseract-ocr-por \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements-api.txt .
+RUN pip install --no-cache-dir -r requirements-api.txt
+
+# Copiar estrutura do projeto (API + config + dados)
+COPY app/python/ ./app/python/
+COPY 00_CONFIG/ ./00_CONFIG/
+COPY 03_CONTABILIDADE_ANALITICA/ ./03_CONTABILIDADE_ANALITICA/
+
+ENV GESTAO_BASE_PATH=/app
+ENV PORT=8080
+EXPOSE 8080
+
+CMD ["sh", "-c", "uvicorn app.python.api.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
