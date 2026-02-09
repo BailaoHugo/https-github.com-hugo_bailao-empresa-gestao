@@ -1,0 +1,22 @@
+[Unit]
+Description=API Gestao Empresa (Docker)
+After=docker.service network-online.target
+Requires=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStartPre=-/usr/bin/docker stop gestao-api
+ExecStartPre=-/usr/bin/docker rm gestao-api
+ExecStart=/usr/bin/docker run --name gestao-api --rm -d \
+  -p 8000:8080 \
+  -v /home/bailan/empresa-gestao/GESTAO_EMPRESA/03_CONTABILIDADE_ANALITICA:/app/03_CONTABILIDADE_ANALITICA \
+  -v /home/bailan/empresa-gestao/GESTAO_EMPRESA/00_CONFIG:/app/00_CONFIG \
+  -v /home/bailan/empresa-gestao/GESTAO_EMPRESA/02_OBRAS:/app/02_OBRAS \
+  gestao-api
+ExecStop=/usr/bin/docker stop gestao-api
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

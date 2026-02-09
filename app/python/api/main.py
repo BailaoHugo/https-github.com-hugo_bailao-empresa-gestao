@@ -150,6 +150,50 @@ def listar_centros():
     return out
 
 
+ORCAMENTOS_CABECALHO = BASE_PATH / "02_OBRAS" / "ORCAMENTOS" / "orcamentos_cabecalho.xlsx"
+
+
+@app.get("/api/orcamentos")
+def listar_orcamentos():
+    """Lista orçamentos do ficheiro Excel."""
+    if not XL_AVAILABLE or not ORCAMENTOS_CABECALHO.exists():
+        return []
+    try:
+        wb = load_workbook(ORCAMENTOS_CABECALHO, data_only=True)
+        ws = None
+        for name in ["orcamentos", "orcamentos_cabecalho", "cabecalho"]:
+            if name in wb.sheetnames:
+                ws = wb[name]
+                break
+        if ws is None:
+            ws = wb.active
+        headers = [str(c.value or "").strip() for c in ws[1]]
+        idx_id = next((i for i, h in enumerate(headers, 1) if "orcamento_id" in h.lower() or h == "orcamento_id"), None)
+        idx_obra = next((i for i, h in enumerate(headers, 1) if "nome_obra" in h.lower() or "obra" in h.lower()), None)
+        idx_cliente = next((i for i, h in enumerate(headers, 1) if "cliente" in h.lower()), None)
+        idx_data = next((i for i, h in enumerate(headers, 1) if "data" in h.lower()), None)
+        idx_estado = next((i for i, h in enumerate(headers, 1) if "estado" in h.lower()), None)
+        idx_total = next((i for i, h in enumerate(headers, 1) if "total" in h.lower()), None)
+        if not idx_id:
+            return []
+        out = []
+        for r in range(2, ws.max_row + 1):
+            oid = ws.cell(r, idx_id).value
+            if not oid:
+                continue
+            out.append({
+                "orcamento_id": str(oid),
+                "nome_obra": str(ws.cell(r, idx_obra).value or "") if idx_obra else "",
+                "cliente": str(ws.cell(r, idx_cliente).value or "") if idx_cliente else "",
+                "data_orcamento": str(ws.cell(r, idx_data).value or "") if idx_data else "",
+                "estado": str(ws.cell(r, idx_estado).value or "") if idx_estado else "",
+                "total_previsto": ws.cell(r, idx_total).value if idx_total else None,
+            })
+        return out
+    except Exception:
+        return []
+
+
 @app.post("/api/registar-despesa")
 async def registar_despesa(
     centro_custo_codigo: str = Form(...),
