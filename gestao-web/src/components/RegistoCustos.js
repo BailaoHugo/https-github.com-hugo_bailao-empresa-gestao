@@ -20,6 +20,8 @@ export default function RegistoCustos() {
   const [loading, setLoading] = useState(false);
   const cropperRef = useRef(null);
   const inputFileRef = useRef(null);
+  const [cameraStream, setCameraStream] = useState(null);
+  const [cameraError, setCameraError] = useState(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -125,7 +127,22 @@ export default function RegistoCustos() {
           />
           <button
             type="button"
-            onClick={() => setStep("camera")}
+            onClick={() => {
+              setCameraError(null);
+              navigator.mediaDevices
+                .getUserMedia({ video: { facingMode: "environment" } })
+                .then((stream) => {
+                  setCameraStream(stream);
+                  setStep("camera");
+                })
+                .catch((e) => {
+                  const msg =
+                    e.name === "NotAllowedError" || e.name === "PermissionDeniedError"
+                      ? "Permissão de câmara negada. Toque em «Tirar foto» novamente e autorize o acesso quando o browser pedir."
+                      : e.message || "Não foi possível aceder à câmara.";
+                  setCameraError(msg);
+                });
+            }}
             className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition text-left"
           >
             <PhotoIcon />
@@ -155,13 +172,26 @@ export default function RegistoCustos() {
         </div>
       )}
 
-      {step === "camera" && (
+      {cameraError && step === "foto" && (
+        <div className="mt-3 p-3 rounded-md bg-red-50 text-red-700 text-sm">
+          {cameraError} Pode usar «Escolher da galeria» como alternativa.
+        </div>
+      )}
+
+      {step === "camera" && cameraStream && (
         <CameraStep
+          stream={cameraStream}
           onCapture={(file) => {
+            cameraStream.getTracks().forEach((t) => t.stop());
+            setCameraStream(null);
             setRawFile(file);
             setStep("crop");
           }}
-          onCancel={() => setStep("foto")}
+          onCancel={() => {
+            cameraStream.getTracks().forEach((t) => t.stop());
+            setCameraStream(null);
+            setStep("foto");
+          }}
         />
       )}
 
@@ -225,53 +255,25 @@ export default function RegistoCustos() {
   );
 }
 
-function CameraStep({ onCapture, onCancel }) {
+function CameraStep({ stream, onCapture, onCancel }) {
   const videoRef = useRef(null);
-  const streamRef = useRef(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let stream = null;
-    const startCamera = async () => {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: { ideal: 1920 }, height: { ideal: 1080 } },
-        });
-        streamRef.current = stream;
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (e) {
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: true });
-          streamRef.current = stream;
-          if (videoRef.current) videoRef.current.srcObject = stream;
-        } catch (e2) {
-          setError(e2.message || "Não foi possível aceder à câmara.");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-    startCamera();
-    return () => {
-      if (streamRef.current) {
-        streamRef.current.getTracks().forEach((t) => t.stop());
-      }
-    };
-  }, []);
+    const video = videoRef.current;
+    if (video && stream) {
+      video.srcObject = stream;
+      video.play().catch(() => {}); // iOS exige play() explícito para mostrar o stream
+    }
+  }, [stream]);
 
   const handleCapture = () => {
     const video = videoRef.current;
-    const stream = streamRef.current;
     if (!video || !stream || video.readyState !== 4) return;
     const canvas = document.createElement("canvas");
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(video, 0, 0);
-    stream.getTracks().forEach((t) => t.stop());
     canvas.toBlob(
       (blob) => {
         if (blob) {
@@ -282,32 +284,6 @@ function CameraStep({ onCapture, onCancel }) {
       0.92
     );
   };
-
-  const handleCancel = () => {
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((t) => t.stop());
-    }
-    onCancel();
-  };
-
-  if (loading) {
-    return (
-      <div className="bg-white border border-slate-200 rounded-xl p-5">
-        <p className="text-slate-500 py-8 text-center">A iniciar câmara...</p>
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div className="bg-white border border-slate-200 rounded-xl p-5">
-        <p className="text-red-600 mb-3">{error}</p>
-        <p className="text-sm text-slate-500 mb-4">Use «Escolher da galeria» para selecionar uma foto.</p>
-        <button onClick={handleCancel} className="px-4 py-2 rounded-md border border-slate-300 text-slate-700">
-          Voltar
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-5">
@@ -327,7 +303,7 @@ function CameraStep({ onCapture, onCancel }) {
         >
           Capturar foto
         </button>
-        <button onClick={handleCancel} className="flex-1 px-4 py-3 rounded-md border border-slate-800 text-slate-800">
+        <button onClick={onCancel} className="flex-1 px-4 py-3 rounded-md border border-slate-800 text-slate-800">
           Cancelar
         </button>
       </div>
