@@ -14,11 +14,13 @@ from utils.taxas_iva import parse_taxa_iva
 BASE_PATH = Path(os.getenv("GESTAO_BASE_PATH", "/home/bailan/empresa-gestao/GESTAO_EMPRESA"))
 DADOS_PATH = BASE_PATH / "03_CONTABILIDADE_ANALITICA" / "dados"
 CUSTOS_LINHAS = DADOS_PATH / "custos_linhas.xlsx"
+CUSTOS_REGISTO = DADOS_PATH / "custos_registo.xlsx"
+OBRAS_PATH = BASE_PATH / "03_CONTABILIDADE_ANALITICA" / "obras"
 UPLOADS_PATH = DADOS_PATH / "uploads"
 UPLOADS_PATH.mkdir(parents=True, exist_ok=True)
 
 try:
-    from fastapi import FastAPI, File, Form, UploadFile, HTTPException
+    from fastapi import FastAPI, File, Form, UploadFile, HTTPException, Query
     from fastapi.middleware.cors import CORSMiddleware
 except ImportError:
     print("Instale: pip install fastapi uvicorn python-multipart")
@@ -227,6 +229,301 @@ async def registar_despesa(
         "ocr_texto": texto[:500] if texto else "(OCR não disponível)",
         "dados_extraidos": dados,
     }
+
+
+def _load_custos_registo() -> list[dict]:
+    """Carrega custos_registo.xlsx."""
+    if not XL_AVAILABLE or not CUSTOS_REGISTO.exists():
+        return []
+    wb = load_workbook(CUSTOS_REGISTO, data_only=True)
+    ws = wb.active
+    headers = [c.value for c in ws[1]]
+    return [
+        {h: ws.cell(r, i + 1).value for i, h in enumerate(headers) if h}
+        for r in range(2, ws.max_row + 1)
+    ]
+
+
+@app.get("/api/custos/obras")
+def listar_obras_com_custos():
+    """Lista obras (centros de custo) com totais de custos por tipo."""
+    rows = _load_custos_registo()
+    por_obra: dict[str, dict] = {}
+    tipos = ("subempreitadas", "materiais", "mao_obra", "equipamentos_maquinaria", "custos_sede")
+    for r in rows:
+        cc = str(r.get("centro_custo_codigo") or "").strip()
+        if not cc:
+            continue
+        if cc not in por_obra:
+            por_obra[cc] = {"centro_custo_codigo": cc, "total": 0, **{t: 0 for t in tipos}}
+        t = (r.get("tipo_linha") or "materiais").strip().lower()
+        if t == "subempreitada":
+            t = "subempreitadas"
+        if t not in tipos:
+            t = "materiais"
+        val = r.get("net_amount") or r.get("unit_price") or 0
+        try:
+            val = float(val) if val is not None else 0
+        except (TypeError, ValueError):
+            val = 0
+        por_obra[cc][t] = por_obra[cc][t] + val
+        por_obra[cc]["total"] = por_obra[cc]["total"] + val
+    return list(por_obra.values())
+
+
+@app.get("/api/custos/obras/{centro}")
+def custos_por_obra(centro: str, tipo: str | None = None, capitulo: str | None = None):
+    """Lista custos de uma obra, opcionalmente filtrados por tipo e capítulo."""
+    rows = _load_custos_registo()
+    filtrado = [r for r in rows if str(r.get("centro_custo_codigo") or "").strip() == centro]
+    if tipo:
+        t = tipo.strip().lower()
+        if t == "subempreitada":
+            t = "subempreitadas"
+        filtrado = [r for r in filtrado if (r.get("tipo_linha") or "").strip().lower() in (t, "subempreitada" if t == "subempreitadas" else t)]
+    if capitulo:
+        filtrado = [r for r in filtrado if (r.get("capitulo_orcamento") or "").strip() == capitulo]
+    return {"centro_custo_codigo": centro, "linhas": filtrado, "total_linhas": len(filtrado)}
+
+
+@app.get("/api/custos/capitulos")
+def listar_capitulos_orcamento():
+    """Lista capítulos do orçamento para filtro/dropdown."""
+    path = BASE_PATH / "00_CONFIG" / "capitulos_orcamento.xlsx"
+    if not XL_AVAILABLE or not path.exists():
+        return []
+    wb = load_workbook(path, data_only=True)
+    ws = wb.active
+    headers = [c.value for c in ws[1]]
+    idx_id = next((i for i, h in enumerate(headers, 1) if "id" in str(h).lower()), None)
+    idx_nome = next((i for i, h in enumerate(headers, 1) if "nome" in str(h).lower()), None)
+    if not idx_id:
+        return []
+    out = []
+    for r in range(2, ws.max_row + 1):
+        cid = ws.cell(r, idx_id).value
+        nome = ws.cell(r, idx_nome).value if idx_nome else ""
+        if cid:
+            out.append({"id": str(cid), "nome": str(nome or cid)})
+    return out
+
+
+# --- Base de Dados endpoints ---
+
+CONFIG_PATH = BASE_PATH / "00_CONFIG"
+EMPRESA_PATH = BASE_PATH / "01_EMPRESA"
+CONTAB_PATH = BASE_PATH / "03_CONTABILIDADE_ANALITICA"
+CLASSIFICACAO_PATH = CONTAB_PATH / "config" / "classificacao_fornecedores.csv"
+
+
+def _load_excel_as_dicts(path: Path) -> list[dict]:
+    """Carrega ficheiro Excel e devolve lista de dicionários (1ª linha = headers)."""
+    if not XL_AVAILABLE or not path.exists():
+        return []
+    wb = load_workbook(path, data_only=True)
+    ws = wb.active
+    headers = [h for h in (c.value for c in ws[1]) if h]
+    return [
+        {h: ws.cell(r, i + 1).value for i, h in enumerate(headers) if i < len(headers)}
+        for r in range(2, ws.max_row + 1)
+    ]
+
+
+def _load_classificacao_fornecedores() -> dict[str, str]:
+    """Mapa fornecedor -> tipo (materiais/subempreitada)."""
+    out: dict[str, str] = {}
+    if not CLASSIFICACAO_PATH.exists():
+        return out
+    with open(CLASSIFICACAO_PATH, encoding="utf-8") as f:
+        lines = [l.strip() for l in f if l.strip()]
+    for line in lines[1:]:  # skip header
+        parts = [p.strip() for p in line.split(",")]
+        if len(parts) >= 2:
+            out[parts[0].strip()] = parts[1].strip()
+    return out
+
+
+def _apply_text_filter(rows: list[dict], q, text_cols: list[str]) -> list[dict]:
+    """Filtra linhas onde alguma coluna de texto contenha q (case-insensitive)."""
+    ql = (q.strip().lower()) if isinstance(q, str) and q.strip() else ""
+    if not ql:
+        return rows
+    return [r for r in rows if any(
+        ql in str(r.get(c) or "").lower() for c in text_cols if r.get(c)
+    )]
+
+
+def _opt_str(v):
+    """Normaliza parâmetro opcional de query para string ou None."""
+    return v.strip() if isinstance(v, str) and v else None
+
+
+def _opt_float(v):
+    """Normaliza parâmetro opcional de query para float ou None."""
+    if v is None or not isinstance(v, (int, float, str)):
+        return None
+    try:
+        return float(str(v).replace(",", "."))
+    except (TypeError, ValueError):
+        return None
+
+
+def _to_float(v) -> float:
+    if v is None:
+        return 0.0
+    try:
+        return float(str(v).replace(",", "."))
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _apply_value_filters(rows: list[dict], valor_min, valor_max, col: str = "net_amount") -> list[dict]:
+    """Filtra por valor_min e valor_max na coluna indicada."""
+    out = rows
+    vmin = _opt_float(valor_min)
+    vmax = _opt_float(valor_max)
+    if vmin is not None:
+        out = [r for r in out if _to_float(r.get(col)) >= vmin]
+    if vmax is not None:
+        out = [r for r in out if _to_float(r.get(col)) <= vmax]
+    return out
+
+
+def _apply_date_filters(rows: list[dict], data_inicio, data_fim, col: str = "date") -> list[dict]:
+    """Filtra por intervalo de datas (strings yyyy-mm-dd)."""
+    out = rows
+    di = _opt_str(data_inicio)
+    df = _opt_str(data_fim)
+    if di:
+        out = [r for r in out if str(r.get(col) or "") >= di]
+    if df:
+        out = [r for r in out if str(r.get(col) or "") <= df]
+    return out
+
+
+@app.get("/api/base-dados/entidades")
+def listar_entidades():
+    """Lista metadata das entidades disponíveis na base de dados."""
+    return [
+        {"id": "centros-custo", "nome": "Centros de custo", "filtros": ["q"]},
+        {"id": "fornecedores", "nome": "Fornecedores", "filtros": ["q"]},
+        {"id": "clientes", "nome": "Clientes / Empresas", "filtros": ["q"]},
+        {"id": "materiais", "nome": "Materiais", "filtros": ["q", "centro", "data_inicio", "data_fim", "valor_min", "valor_max"]},
+        {"id": "subempreiteiros", "nome": "Subempreiteiros", "filtros": ["q", "centro", "data_inicio", "data_fim", "valor_min", "valor_max"]},
+        {"id": "custos", "nome": "Custos (registo completo)", "filtros": ["q", "tipo", "centro", "data_inicio", "data_fim", "valor_min", "valor_max"]},
+        {"id": "trabalhadores", "nome": "Trabalhadores", "filtros": ["q"]},
+        {"id": "capitulos", "nome": "Capítulos orçamento", "filtros": ["q"]},
+    ]
+
+
+@app.get("/api/base-dados/centros-custo")
+def base_dados_centros_custo(q: str | None = Query(None, description="Pesquisa textual")):
+    rows = listar_centros()
+    data = [{"centro_custo_codigo": r["codigo"], "centro_custo_nome": r["nome"]} for r in rows]
+    data = _apply_text_filter(data, q, ["centro_custo_codigo", "centro_custo_nome"])
+    return {"dados": data, "total": len(data)}
+
+
+@app.get("/api/base-dados/fornecedores")
+def base_dados_fornecedores(q: str | None = Query(None, description="Pesquisa textual")):
+    path = EMPRESA_PATH / "fornecedores.xlsx"
+    rows = _load_excel_as_dicts(path)
+    rows = _apply_text_filter(rows, q, ["business_name", "id", "internal_observations"])
+    return {"dados": rows, "total": len(rows)}
+
+
+@app.get("/api/base-dados/clientes")
+def base_dados_clientes(q: str | None = Query(None, description="Pesquisa textual")):
+    path = EMPRESA_PATH / "clientes.xlsx"
+    rows = _load_excel_as_dicts(path)
+    rows = _apply_text_filter(rows, q, ["business_name", "id", "contact_name"])
+    return {"dados": rows, "total": len(rows)}
+
+
+@app.get("/api/base-dados/materiais")
+def base_dados_materiais(
+    q: str | None = Query(None),
+    centro: str | None = Query(None),
+    data_inicio: str | None = Query(None),
+    data_fim: str | None = Query(None),
+    valor_min: float | None = Query(None),
+    valor_max: float | None = Query(None),
+):
+    rows = _load_custos_registo()
+    rows = [r for r in rows if (str(r.get("tipo_linha") or "").strip().lower() in ("materiais", "material"))]
+    centro_s = _opt_str(centro)
+    if centro_s:
+        rows = [r for r in rows if str(r.get("centro_custo_codigo") or "").strip() == centro_s]
+    rows = _apply_date_filters(rows, data_inicio, data_fim)
+    rows = _apply_value_filters(rows, valor_min, valor_max)
+    rows = _apply_text_filter(rows, q, ["supplier", "description", "document_no"])
+    return {"dados": rows, "total": len(rows), "soma_net_amount": sum(_to_float(r.get("net_amount")) for r in rows)}
+
+
+@app.get("/api/base-dados/subempreiteiros")
+def base_dados_subempreiteiros(
+    q: str | None = Query(None),
+    centro: str | None = Query(None),
+    data_inicio: str | None = Query(None),
+    data_fim: str | None = Query(None),
+    valor_min: float | None = Query(None),
+    valor_max: float | None = Query(None),
+):
+    rows = _load_custos_registo()
+    rows = [r for r in rows if (str(r.get("tipo_linha") or "").strip().lower() in ("subempreitadas", "subempreitada", "subempreiteiros"))]
+    clf = _load_classificacao_fornecedores()
+    for r in rows:
+        r["tipo_classificado"] = clf.get(str(r.get("supplier") or ""), "")
+    centro_s = _opt_str(centro)
+    if centro_s:
+        rows = [r for r in rows if str(r.get("centro_custo_codigo") or "").strip() == centro_s]
+    rows = _apply_date_filters(rows, data_inicio, data_fim)
+    rows = _apply_value_filters(rows, valor_min, valor_max)
+    rows = _apply_text_filter(rows, q, ["supplier", "description", "document_no"])
+    return {"dados": rows, "total": len(rows), "soma_net_amount": sum(_to_float(r.get("net_amount")) for r in rows)}
+
+
+@app.get("/api/base-dados/custos")
+def base_dados_custos(
+    q: str | None = Query(None),
+    tipo: str | None = Query(None),
+    centro: str | None = Query(None),
+    data_inicio: str | None = Query(None),
+    data_fim: str | None = Query(None),
+    valor_min: float | None = Query(None),
+    valor_max: float | None = Query(None),
+):
+    rows = _load_custos_registo()
+    tipo_s = _opt_str(tipo)
+    if tipo_s:
+        t = tipo_s.lower()
+        if t == "subempreitada":
+            t = "subempreitadas"
+        rows = [r for r in rows if (str(r.get("tipo_linha") or "").strip().lower() == t)]
+    centro_s = _opt_str(centro)
+    if centro_s:
+        rows = [r for r in rows if str(r.get("centro_custo_codigo") or "").strip() == centro_s]
+    rows = _apply_date_filters(rows, data_inicio, data_fim)
+    rows = _apply_value_filters(rows, valor_min, valor_max)
+    rows = _apply_text_filter(rows, q, ["supplier", "description", "document_no", "centro_custo_codigo"])
+    soma = sum(_to_float(r.get("net_amount")) or _to_float(r.get("unit_price")) for r in rows)
+    return {"dados": rows, "total": len(rows), "soma_net_amount": soma}
+
+
+@app.get("/api/base-dados/trabalhadores")
+def base_dados_trabalhadores(q: str | None = Query(None)):
+    path = DADOS_PATH / "trabalhadores.xlsx"
+    rows = _load_excel_as_dicts(path)
+    rows = _apply_text_filter(rows, q, ["codigo", "nome", "origem"])
+    return {"dados": rows, "total": len(rows)}
+
+
+@app.get("/api/base-dados/capitulos")
+def base_dados_capitulos(q: str | None = Query(None)):
+    rows = listar_capitulos_orcamento()
+    data = [{"capitulo_id": r["id"], "capitulo_nome": r["nome"]} for r in rows]
+    data = _apply_text_filter(data, q, ["capitulo_id", "capitulo_nome"])
+    return {"dados": data, "total": len(data)}
 
 
 if __name__ == "__main__":

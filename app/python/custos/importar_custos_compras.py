@@ -34,7 +34,7 @@ def _load_csv_config(name: str, key_col: str, tipo_col: str) -> list[tuple[str, 
         for row in r:
             k = (row.get(key_col) or "").strip().lower()
             v = (row.get(tipo_col) or "").strip().lower()
-            if k and v and v in ("materiais", "subempreitada"):
+            if k and v and v in ("materiais", "subempreitada", "equipamentos_maquinaria", "custos_sede"):
                 rows.append((k, v))
     return rows
 

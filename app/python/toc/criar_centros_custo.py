@@ -12,53 +12,32 @@ from openpyxl.worksheet.datavalidation import DataValidation
 BASE_PATH = Path(os.getenv("GESTAO_BASE_PATH", "/home/bailan/empresa-gestao/GESTAO_EMPRESA"))
 
 # Lista (Codigo, Descricao) conforme TOConline
+# Formato codigo: YY.NNN — 2 digitos = ano inicio obra (25=2025), 3 digitos = numero obra
 RAW = [
-    ("001", "Sede-Geral"),
-    ("054", "54-Estoril 124"),
-    ("002", "02 - R/C Santa Iria(inativo)"),
-    ("114", "114 - AV. ELIAS GARCIA 93"),
-    ("118", "118 - ESPELHOS DO TEJO"),
-    ("115", "115-Linda a Velha"),
-    ("084", "84-T2 Loja Estoril"),
-    ("087", "87- Cose da Mamma"),
-    ("122", "122-Barreiro"),
-    ("999", "Pequenas Obras e Reparacoes"),
-    ("092", "92 - Fabrica 1921"),
-    ("008", "08-Vale Pereiro-Manuel Costa Gabriel(inativo)"),
-    ("036", "36-T3 Miraflores(Inativo)"),
-    ("046", "46-Escritorios Yelco(Inativo)"),
-    ("070", "70-Real Forte(Inativo)"),
-    ("073", "73-T4 Telheiras(Inativo)"),
-    ("063", "63-T3 Carnaxide(Inativo)"),
-    ("047", "47-T4 Parque Nacoes(Inativo)"),
-    ("057", "57-T2 Parque das Nacoes(Inativo)"),
-    ("061", "61-Torneiro PN(Inativo)"),
-    ("065", "65-Latino Coelho(Inativo)"),
-    ("081", "81-Nood Alcantara(inativo)"),
-    ("083", "83 - Nood Montijo(inativo)"),
-    ("097", "97-Parede"),
-    ("085", "85 - Nood Setubal(Inativo)"),
-    ("066", "66-Nood Defensor de Chaves(Inativo)"),
-    ("080", "80-Moradia M - Qta Marinha-Cascais"),
-    ("088", "88 - Duplex Sacavem-Restsof"),
-    ("093", "93 - CAIXAS DE LUZ"),
-    ("098", "98 - PINOQUIO"),
-    ("106", "106 - SR. LISBOA"),
-    ("107", "107 - CABELEIREIRO BAIRRO ALTO(Luis Camoes)"),
-    ("998", "Arrendamento Santa Iria 17B"),
-    ("003", "03-Imovel Lofts Santa Iria -Alugado"),
-    ("110", "110-Restaurante LCH (Hotel Chiado)"),
-    ("113", "113 - DICASA ESTORIL"),
-    ("997", "Arrendamento Santa Iria 17"),
-    ("996", "Arrendamento Santa Iria 17A"),
+    ("24.54", "24.54 - ESTORIL 124"),
+    ("24.80", "24.80 - MORADIA QUINTA DA MARINHA"),
+    ("25.84", "25.84 - T2 LOJA ESTORIL"),
+    ("25.106", "25.106 - SR. LISBOA"),
+    ("25.113", "25.113 - CCG"),
+    ("25.115", "25.115 - LINDA A VELHA"),
+    ("26.97", "26.97 - PAREDE"),
+    ("26.114", "26.114 - AV. ELIAS GARCIA 93"),
+    ("26.120", "26.120 - PENHA DE FRANCA"),
+    ("26.122", "26.122 - BARREIRO"),
+    ("26.123", "26.123 - TIDELLI"),
+    ("26.128", "26.128 - NOOD COLOMBO"),
+    ("26.129", "26.129 - NOOD CASCAIS"),
+    ("99.990", "99.990 - MANUTENÇOES"),
 ]
 
 
 def clean_name(code: str, desc: str) -> str:
     cleaned = re.sub(r"\(\s*inativo\s*\)", "", desc, flags=re.I).strip()
-    if code.isdigit():
+    # Remover codigo do inicio (ex: "25.113 - CCG" ou "001 - Sede")
+    cleaned = re.sub(rf"^{re.escape(code)}\s*[-–—]\s*", "", cleaned, flags=re.I).strip()
+    if "." not in code and code.isdigit():
         cleaned = re.sub(rf"^\s*0*{int(code)}\s*[-–—]\s*", "", cleaned)
-    cleaned = re.sub(r"^\s*\d+\s*[-–—]\s*", "", cleaned).strip()
+    cleaned = re.sub(r"^\s*\d+\.?\d*\s*[-–—]\s*", "", cleaned).strip()
     return cleaned.strip()
 
 

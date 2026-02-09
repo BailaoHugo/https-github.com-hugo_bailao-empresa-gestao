@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 
 const PhotoIcon = () => (
   <svg className="w-14 h-14 sm:w-16 sm:h-16 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -20,8 +19,7 @@ export default function RegistoCustos() {
   const [msg, setMsg] = useState({ text: "", ok: false });
   const [loading, setLoading] = useState(false);
   const cropperRef = useRef(null);
-  const inputCamRef = useRef(null);
-  const inputGalRef = useRef(null);
+  const inputFileRef = useRef(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -33,10 +31,11 @@ export default function RegistoCustos() {
   }, [API_URL]);
 
   useEffect(() => {
+    if (step === "camera") return;
     if (!rawFile && !currentFile) setStep("foto");
     else if (rawFile) setStep("crop");
     else setStep("enviar");
-  }, [rawFile, currentFile]);
+  }, [rawFile, currentFile, step]);
 
   const handleFileChange = (e) => {
     const f = e.target.files?.[0];
@@ -106,7 +105,8 @@ export default function RegistoCustos() {
       <header className="mb-6">
         <h1 className="text-2xl font-semibold m-0">Registo de Custos</h1>
         <p className="text-slate-500 m-0 mt-1">
-          {step === "foto" && "Registe despesas com foto de fatura ou recibo"}
+          {step === "foto" && "Registe despesas com foto de fatura ou recibo."}
+          {step === "camera" && "Aponte a câmara para a fatura e capture"}
           {step === "crop" && "Ajuste o recorte para remover margens e focar na fatura"}
           {step === "enviar" && "Escolha o centro de custo e envie"}
         </p>
@@ -115,17 +115,7 @@ export default function RegistoCustos() {
       {step === "foto" && (
         <div className="flex flex-col sm:flex-row gap-3">
           <input
-            ref={inputCamRef}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={handleFileChange}
-            className="sr-only"
-            aria-hidden="true"
-            tabIndex={-1}
-          />
-          <input
-            ref={inputGalRef}
+            ref={inputFileRef}
             type="file"
             accept="image/*"
             onChange={handleFileChange}
@@ -135,7 +125,7 @@ export default function RegistoCustos() {
           />
           <button
             type="button"
-            onClick={() => inputCamRef.current?.click()}
+            onClick={() => setStep("camera")}
             className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition text-left"
           >
             <PhotoIcon />
@@ -144,7 +134,14 @@ export default function RegistoCustos() {
           </button>
           <button
             type="button"
-            onClick={() => inputGalRef.current?.click()}
+            onClick={() => {
+              const input = inputFileRef.current;
+              if (input) {
+                input.value = "";
+                input.removeAttribute("capture");
+                input.click();
+              }
+            }}
             className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition text-left"
           >
             <svg className="w-14 h-14 sm:w-16 sm:h-16 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -156,6 +153,16 @@ export default function RegistoCustos() {
             <span className="text-xs text-slate-400">Ficheiro existente</span>
           </button>
         </div>
+      )}
+
+      {step === "camera" && (
+        <CameraStep
+          onCapture={(file) => {
+            setRawFile(file);
+            setStep("crop");
+          }}
+          onCancel={() => setStep("foto")}
+        />
       )}
 
       {step === "crop" && rawFile && (
@@ -214,6 +221,116 @@ export default function RegistoCustos() {
           {msg.text}
         </div>
       )}
+    </div>
+  );
+}
+
+function CameraStep({ onCapture, onCancel }) {
+  const videoRef = useRef(null);
+  const streamRef = useRef(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let stream = null;
+    const startCamera = async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 1920 }, height: { ideal: 1080 } },
+        });
+        streamRef.current = stream;
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (e) {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          streamRef.current = stream;
+          if (videoRef.current) videoRef.current.srcObject = stream;
+        } catch (e2) {
+          setError(e2.message || "Não foi possível aceder à câmara.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+    startCamera();
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((t) => t.stop());
+      }
+    };
+  }, []);
+
+  const handleCapture = () => {
+    const video = videoRef.current;
+    const stream = streamRef.current;
+    if (!video || !stream || video.readyState !== 4) return;
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(video, 0, 0);
+    stream.getTracks().forEach((t) => t.stop());
+    canvas.toBlob(
+      (blob) => {
+        if (blob) {
+          onCapture(new File([blob], "foto.jpg", { type: "image/jpeg" }));
+        }
+      },
+      "image/jpeg",
+      0.92
+    );
+  };
+
+  const handleCancel = () => {
+    if (streamRef.current) {
+      streamRef.current.getTracks().forEach((t) => t.stop());
+    }
+    onCancel();
+  };
+
+  if (loading) {
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl p-5">
+        <p className="text-slate-500 py-8 text-center">A iniciar câmara...</p>
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className="bg-white border border-slate-200 rounded-xl p-5">
+        <p className="text-red-600 mb-3">{error}</p>
+        <p className="text-sm text-slate-500 mb-4">Use «Escolher da galeria» para selecionar uma foto.</p>
+        <button onClick={handleCancel} className="px-4 py-2 rounded-md border border-slate-300 text-slate-700">
+          Voltar
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white border border-slate-200 rounded-xl p-5">
+      <div className="w-full aspect-video bg-slate-900 rounded-lg overflow-hidden mb-4 flex items-center justify-center">
+        <video
+          ref={videoRef}
+          autoPlay
+          playsInline
+          muted
+          className="max-w-full max-h-full w-full h-full object-contain"
+        />
+      </div>
+      <div className="flex gap-2">
+        <button
+          onClick={handleCapture}
+          className="flex-1 px-4 py-3 rounded-md bg-slate-800 text-white font-semibold"
+        >
+          Capturar foto
+        </button>
+        <button onClick={handleCancel} className="flex-1 px-4 py-3 rounded-md border border-slate-800 text-slate-800">
+          Cancelar
+        </button>
+      </div>
     </div>
   );
 }

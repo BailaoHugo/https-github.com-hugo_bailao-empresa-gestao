@@ -16,6 +16,18 @@ export default function HomePage() {
       </header>
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <Link
+          href="/base-dados"
+          className="block bg-white border border-slate-200 rounded-xl p-4 flex flex-col gap-3 hover:border-slate-400 transition"
+        >
+          <h2 className="text-lg font-semibold m-0">Base de Dados</h2>
+          <p className="text-sm text-slate-600 m-0 flex-1">
+            Consulta de centros de custo e outras entidades
+          </p>
+          <span className="inline-block w-fit px-4 py-2 rounded-md bg-slate-800 text-white text-sm font-semibold">
+            Entrar
+          </span>
+        </Link>
+        <Link
           href="/orcamentos"
           className="block bg-white border border-slate-200 rounded-xl p-4 flex flex-col gap-3 hover:border-slate-400 transition"
         >

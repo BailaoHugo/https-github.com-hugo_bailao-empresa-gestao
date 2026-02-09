@@ -1,0 +1,51 @@
+{
+  "fornecedor": {
+    "nome": "PINCELADA - SOC. COM. DE TINTAS E VERNIZES, LDA.",
+    "nif": "503238660",
+    "morada": ""
+  },
+  "cliente": {
+    "nome": "CHURRASQUEIRA C GRA",
+    "nif": "515188166"
+  },
+  "documento": {
+    "numero": "VDI 2610/201",
+    "data": "2026-02-06",
+    "tipo": "Fatura"
+  },
+  "linhas": [
+    {
+      "designacao": "PRIMARIO EP/GC 300  10-600     15 L",
+      "codigo": "03032676",
+      "quantidade": 1.0,
+      "unidade": "UN",
+      "preco_unitario": 7.44,
+      "valor_liquido": 7.44,
+      "iva_pct": 23.0
+    },
+    {
+      "designacao": "FITA ISOLADORA 90º 36mm",
+      "codigo": "908003101",
+      "quantidade": 5.0,
+      "unidade": "UN",
+      "preco_unitario": 11.96,
+      "valor_liquido": 59.8,
+      "iva_pct": 23.0
+    },
+    {
+      "designacao": "COBERTURAS EXTRA 00490 7023 01",
+      "codigo": "00490702301",
+      "quantidade": 1.0,
+      "unidade": "UN",
+      "preco_unitario": 12.38,
+      "valor_liquido": 12.38,
+      "iva_pct": 23.0
+    }
+  ],
+  "totais": {
+    "valor_liquido": 154.45,
+    "total_iva": 35.52,
+    "total_documento": 189.97
+  },
+  "origem": "email_963ae32fb7d7.pdf"
+}

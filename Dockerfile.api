@@ -15,6 +15,7 @@ RUN pip install --no-cache-dir -r requirements-api.txt
 # Copiar estrutura do projeto (API + config + dados)
 COPY app/python/ ./app/python/
 COPY 00_CONFIG/ ./00_CONFIG/
+COPY 01_EMPRESA/ ./01_EMPRESA/
 COPY 02_OBRAS/ ./02_OBRAS/
 COPY 03_CONTABILIDADE_ANALITICA/ ./03_CONTABILIDADE_ANALITICA/
 
