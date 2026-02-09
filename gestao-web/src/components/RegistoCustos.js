@@ -20,6 +20,8 @@ export default function RegistoCustos() {
   const [msg, setMsg] = useState({ text: "", ok: false });
   const [loading, setLoading] = useState(false);
   const cropperRef = useRef(null);
+  const inputCamRef = useRef(null);
+  const inputGalRef = useRef(null);
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -112,19 +114,39 @@ export default function RegistoCustos() {
 
       {step === "foto" && (
         <div className="flex flex-col sm:flex-row gap-3">
-          <label className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition">
+          <input
+            ref={inputCamRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={handleFileChange}
+            className="sr-only"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+          <input
+            ref={inputGalRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="sr-only"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
+          <button
+            type="button"
+            onClick={() => inputCamRef.current?.click()}
+            className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition text-left"
+          >
             <PhotoIcon />
             <span className="text-sm font-semibold text-slate-600">Tirar foto</span>
             <span className="text-xs text-slate-400">Câmara</span>
-            <input
-              type="file"
-              accept="image/*"
-              capture="environment"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </label>
-          <label className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition">
+          </button>
+          <button
+            type="button"
+            onClick={() => inputGalRef.current?.click()}
+            className="flex-1 flex flex-col items-center justify-center gap-2 min-h-[120px] p-6 bg-white border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-slate-700 hover:bg-slate-50 transition text-left"
+          >
             <svg className="w-14 h-14 sm:w-16 sm:h-16 text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               <circle cx="8.5" cy="8.5" r="1.5" />
@@ -132,13 +154,7 @@ export default function RegistoCustos() {
             </svg>
             <span className="text-sm font-semibold text-slate-600">Escolher da galeria</span>
             <span className="text-xs text-slate-400">Ficheiro existente</span>
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={handleFileChange}
-            />
-          </label>
+          </button>
         </div>
       )}
 
