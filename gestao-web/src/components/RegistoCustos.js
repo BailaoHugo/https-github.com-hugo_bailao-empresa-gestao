@@ -20,8 +20,11 @@ export default function RegistoCustos() {
   const [loading, setLoading] = useState(false);
   const cropperRef = useRef(null);
   const inputFileRef = useRef(null);
+  const inputCamRef = useRef(null);
   const [cameraStream, setCameraStream] = useState(null);
   const [cameraError, setCameraError] = useState(null);
+
+  const isIOS = typeof navigator !== "undefined" && /iPhone|iPad|iPod/.test(navigator.userAgent || "");
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -125,10 +128,28 @@ export default function RegistoCustos() {
             aria-hidden="true"
             tabIndex={-1}
           />
+          <input
+            ref={inputCamRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={handleFileChange}
+            className="sr-only"
+            aria-hidden="true"
+            tabIndex={-1}
+          />
           <button
             type="button"
             onClick={() => {
               setCameraError(null);
+              if (isIOS) {
+                const input = inputCamRef.current;
+                if (input) {
+                  input.value = "";
+                  input.click();
+                }
+                return;
+              }
               navigator.mediaDevices
                 .getUserMedia({ video: { facingMode: "environment" } })
                 .then((stream) => {
@@ -138,7 +159,7 @@ export default function RegistoCustos() {
                 .catch((e) => {
                   const msg =
                     e.name === "NotAllowedError" || e.name === "PermissionDeniedError"
-                      ? "Permissão de câmara negada. Toque em «Tirar foto» novamente e autorize o acesso quando o browser pedir."
+                      ? "O acesso à câmara foi bloqueado. Autorize quando o browser pedir ou use «Escolher da galeria»."
                       : e.message || "Não foi possível aceder à câmara.";
                   setCameraError(msg);
                 });
