@@ -17,7 +17,9 @@ CUSTOS_LINHAS = DADOS_PATH / "custos_linhas.xlsx"
 CUSTOS_REGISTO = DADOS_PATH / "custos_registo.xlsx"
 OBRAS_PATH = BASE_PATH / "03_CONTABILIDADE_ANALITICA" / "obras"
 UPLOADS_PATH = DADOS_PATH / "uploads"
+FACTURAS_EXTRAIDAS = DADOS_PATH / "facturas_extraidas"
 UPLOADS_PATH.mkdir(parents=True, exist_ok=True)
+FACTURAS_EXTRAIDAS.mkdir(parents=True, exist_ok=True)
 
 try:
     from fastapi import FastAPI, File, Form, UploadFile, HTTPException, Query
@@ -221,6 +223,23 @@ async def registar_despesa(
     dados = _extrair_dados_ocr(texto)
     dados["description"] = dados.get("description") or file.filename or "Foto"
 
+    # Extrair factura estruturada e guardar em facturas_extraidas (igual ao fluxo email)
+    ficheiro_extraido = None
+    try:
+        from custos.extrair_factura import (
+            extrair_factura,
+            guardar_factura_json,
+            guardar_factura_excel,
+        )
+        origem = file.filename or save_path.name
+        factura = extrair_factura(texto, origem=f"foto:{origem}|centro:{centro}")
+        base_name = save_path.stem + "_extraida"
+        guardar_factura_json(factura, FACTURAS_EXTRAIDAS / f"{base_name}.json")
+        guardar_factura_excel(factura, FACTURAS_EXTRAIDAS / f"{base_name}.xlsx")
+        ficheiro_extraido = f"{base_name}.xlsx"
+    except Exception:
+        pass  # continua e grava custos_linhas mesmo que extrair_factura falhe
+
     _append_custo(centro, dados, origem=file.filename or "foto")
 
     return {
@@ -228,6 +247,7 @@ async def registar_despesa(
         "centro_custo_codigo": centro,
         "ocr_texto": texto[:500] if texto else "(OCR não disponível)",
         "dados_extraidos": dados,
+        "ficheiro_extraido": ficheiro_extraido,
     }
 
 
