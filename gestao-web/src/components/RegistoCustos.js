@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 
 const PhotoIcon = () => (
@@ -15,6 +15,8 @@ export default function RegistoCustos() {
   const [rawFile, setRawFile] = useState(null);
   const [currentFile, setCurrentFile] = useState(null);
   const [centros, setCentros] = useState([]);
+  const [centrosLoading, setCentrosLoading] = useState(true);
+  const [centrosError, setCentrosError] = useState(null);
   const [selectedCentro, setSelectedCentro] = useState("");
   const [msg, setMsg] = useState({ text: "", ok: false });
   const [loading, setLoading] = useState(false);
@@ -28,12 +30,27 @@ export default function RegistoCustos() {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-  useEffect(() => {
+  const fetchCentros = useCallback(() => {
+    setCentrosLoading(true);
+    setCentrosError(null);
     fetch(`${API_URL}/api/centros-custo`)
-      .then((r) => r.ok ? r.json() : [])
-      .then(setCentros)
-      .catch(() => setCentros([]));
+      .then((r) => {
+        if (!r.ok) throw new Error(`API ${r.status}`);
+        return r.json();
+      })
+      .then((data) => {
+        setCentros(Array.isArray(data) ? data : []);
+      })
+      .catch((e) => {
+        setCentros([]);
+        setCentrosError(e.message || "Erro ao carregar centros");
+      })
+      .finally(() => setCentrosLoading(false));
   }, [API_URL]);
+
+  useEffect(() => {
+    fetchCentros();
+  }, [fetchCentros]);
 
   useEffect(() => {
     if (step === "camera") return;
@@ -234,18 +251,36 @@ export default function RegistoCustos() {
           />
           <div className="flex flex-col gap-2 mb-4">
             <label className="font-medium text-slate-700">Centro de custo</label>
-            <select
-              value={selectedCentro}
-              onChange={(e) => setSelectedCentro(e.target.value)}
-              className="px-4 py-3 border border-slate-300 rounded-md"
-            >
-              <option value="">— Escolher centro —</option>
-              {centros.map((c) => (
-                <option key={c.codigo} value={c.codigo}>
-                  {c.codigo} - {c.nome}
-                </option>
-              ))}
-            </select>
+            {centrosLoading ? (
+              <p className="text-slate-500 py-2 text-sm">A carregar centros...</p>
+            ) : centrosError ? (
+              <div className="p-3 rounded-md bg-amber-50 text-amber-800 text-sm">
+                {centrosError}. Verifique se a API está acessível.
+                <button
+                  type="button"
+                  onClick={fetchCentros}
+                  className="block mt-2 underline font-medium"
+                >
+                  Tentar novamente
+                </button>
+              </div>
+            ) : centros.length === 0 ? (
+              <p className="text-amber-700 text-sm">Nenhum centro de custo configurado.</p>
+            ) : (
+              <select
+                value={selectedCentro}
+                onChange={(e) => setSelectedCentro(e.target.value)}
+                className="px-4 py-3 border border-slate-300 rounded-md w-full min-h-[48px] appearance-auto bg-white"
+                style={{ WebkitAppearance: "menulist" }}
+              >
+                <option value="">— Escolher centro —</option>
+                {centros.map((c) => (
+                  <option key={c.codigo} value={c.codigo}>
+                    {c.codigo} - {c.nome}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
           <div className="flex flex-col sm:flex-row gap-2">
             <button
